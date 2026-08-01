@@ -14,6 +14,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BuscarRouteImport } from './routes/buscar'
 import { Route as CarrinhoRouteImport } from './routes/carrinho'
 import { Route as LojasRouteImport } from './routes/lojas'
+import { Route as PedidosRouteImport } from './routes/pedidos'
 import { Route as ProdutoIdRouteImport } from './routes/produto.$id'
 
 const IndexRoute = IndexRouteImport.update({
@@ -41,6 +42,11 @@ const LojasRoute = LojasRouteImport.update({
   path: '/lojas',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PedidosRoute = PedidosRouteImport.update({
+  id: '/pedidos',
+  path: '/pedidos',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProdutoIdRoute = ProdutoIdRouteImport.update({
   id: '/produto/$id',
   path: '/produto/$id',
@@ -53,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/buscar': typeof BuscarRoute
   '/carrinho': typeof CarrinhoRoute
   '/lojas': typeof LojasRoute
+  '/pedidos': typeof PedidosRoute
   '/produto/$id': typeof ProdutoIdRoute
 }
 export interface FileRoutesByTo {
@@ -61,6 +68,7 @@ export interface FileRoutesByTo {
   '/buscar': typeof BuscarRoute
   '/carrinho': typeof CarrinhoRoute
   '/lojas': typeof LojasRoute
+  '/pedidos': typeof PedidosRoute
   '/produto/$id': typeof ProdutoIdRoute
 }
 export interface FileRoutesById {
@@ -70,13 +78,28 @@ export interface FileRoutesById {
   '/buscar': typeof BuscarRoute
   '/carrinho': typeof CarrinhoRoute
   '/lojas': typeof LojasRoute
+  '/pedidos': typeof PedidosRoute
   '/produto/$id': typeof ProdutoIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/buscar' | '/carrinho' | '/lojas' | '/produto/$id'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/buscar'
+    | '/carrinho'
+    | '/lojas'
+    | '/pedidos'
+    | '/produto/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/buscar' | '/carrinho' | '/lojas' | '/produto/$id'
+  to:
+    | '/'
+    | '/auth'
+    | '/buscar'
+    | '/carrinho'
+    | '/lojas'
+    | '/pedidos'
+    | '/produto/$id'
   id:
     | '__root__'
     | '/'
@@ -84,6 +107,7 @@ export interface FileRouteTypes {
     | '/buscar'
     | '/carrinho'
     | '/lojas'
+    | '/pedidos'
     | '/produto/$id'
   fileRoutesById: FileRoutesById
 }
@@ -93,6 +117,7 @@ export interface RootRouteChildren {
   BuscarRoute: typeof BuscarRoute
   CarrinhoRoute: typeof CarrinhoRoute
   LojasRoute: typeof LojasRoute
+  PedidosRoute: typeof PedidosRoute
   ProdutoIdRoute: typeof ProdutoIdRoute
 }
 
@@ -133,6 +158,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LojasRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pedidos': {
+      id: '/pedidos'
+      path: '/pedidos'
+      fullPath: '/pedidos'
+      preLoaderRoute: typeof PedidosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/produto/$id': {
       id: '/produto/$id'
       path: '/produto/$id'
@@ -149,18 +181,9 @@ const rootRouteChildren: RootRouteChildren = {
   BuscarRoute: BuscarRoute,
   CarrinhoRoute: CarrinhoRoute,
   LojasRoute: LojasRoute,
+  PedidosRoute: PedidosRoute,
   ProdutoIdRoute: ProdutoIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
