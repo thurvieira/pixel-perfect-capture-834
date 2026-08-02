@@ -139,9 +139,11 @@ function CartPage() {
               <Card key={`${item.productId}-${item.storeId}`}>
                 <CardContent className="flex flex-wrap items-center justify-between gap-4 py-4">
                   <div className="flex items-center gap-3">
-                    <span className="text-3xl" aria-hidden="true">
-                      {product.imageEmoji}
-                    </span>
+                    <ProductImage
+                      product={product}
+                      className="h-16 w-16 shrink-0"
+                      emojiClassName="text-3xl"
+                    />
                     <div>
                       <h3 className="font-semibold">{product.name}</h3>
                       <p className="text-xs text-muted-foreground">
