@@ -56,7 +56,7 @@ const FEATURES = [
 
 function Index() {
   const { data, isLoading } = useQuery(catalogQueryOptions);
-  const highlights = data?.products.slice(0, 6) ?? [];
+  const highlights = data?.products.slice(0, 12) ?? [];
 
   return (
     <main className="pb-16">

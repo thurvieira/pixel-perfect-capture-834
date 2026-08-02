@@ -1,3 +1,4 @@
+import ProductImage from "@/components/ProductImage";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
@@ -25,11 +26,9 @@ export default function ProductCard({ product, stores }: ProductCardProps) {
 
   return (
     <Card className="flex h-full flex-col">
-      <CardContent className="flex-1 space-y-3 pt-6">
-        <div className="flex items-start justify-between gap-2">
-          <span className="text-4xl" aria-hidden="true">
-            {product.imageEmoji}
-          </span>
+      <ProductImage product={product} className="aspect-[4/3] w-full rounded-b-none" />
+      <CardContent className="flex-1 space-y-3 pt-4">
+        <div className="flex items-start justify-end">
           <Badge variant="secondary">{product.category}</Badge>
         </div>
         <div>

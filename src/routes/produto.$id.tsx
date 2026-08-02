@@ -1,3 +1,4 @@
+import ProductImage from "@/components/ProductImage";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -68,10 +69,12 @@ function ProductDetail() {
 
   return (
     <main className="container space-y-8 py-10">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
-        <span className="text-6xl" aria-hidden="true">
-          {product.imageEmoji}
-        </span>
+      <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
+        <ProductImage
+          product={product}
+          className="aspect-square w-full sm:w-64"
+          emojiClassName="text-6xl"
+        />
         <div className="flex-1 space-y-2">
           <Badge variant="secondary">{product.category}</Badge>
           <h1 className="text-3xl font-bold tracking-tight">{product.name}</h1>

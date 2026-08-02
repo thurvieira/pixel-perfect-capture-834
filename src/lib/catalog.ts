@@ -21,6 +21,7 @@ interface ProductRow {
   description: string;
   audio_description: string;
   image_emoji: string;
+  image_url: string | null;
 }
 
 interface StockRow {
@@ -71,6 +72,7 @@ export async function fetchCatalog(): Promise<Catalog> {
     description: row.description,
     audioDescription: row.audio_description,
     imageEmoji: row.image_emoji,
+    imageUrl: row.image_url ?? "",
     stocks: stockRows
       .filter((stock) => stock.product_id === row.id)
       .map((stock) => ({
