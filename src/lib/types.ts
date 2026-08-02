@@ -25,6 +25,7 @@ export interface Product {
   description: string;
   audioDescription: string;
   imageEmoji: string;
+  imageUrl: string;
   stocks: ProductStock[];
 }
 
