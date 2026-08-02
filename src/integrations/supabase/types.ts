@@ -137,6 +137,7 @@ export type Database = {
           description: string
           id: string
           image_emoji: string
+          image_url: string
           name: string
           unit: string
         }
@@ -147,6 +148,7 @@ export type Database = {
           description?: string
           id: string
           image_emoji?: string
+          image_url?: string
           name: string
           unit: string
         }
@@ -157,6 +159,7 @@ export type Database = {
           description?: string
           id?: string
           image_emoji?: string
+          image_url?: string
           name?: string
           unit?: string
         }
