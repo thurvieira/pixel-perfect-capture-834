@@ -7,6 +7,7 @@ import logoAsset from "@/assets/conectamercado-logo.png.asset.json";
 import { APP_NAME, APP_TAGLINE } from "@/lib/const";
 import { catalogQueryOptions } from "@/lib/catalog";
 import { STORE_TYPE_LABEL } from "@/lib/format";
+import { discountPercent } from "@/lib/format";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { Ear, MapPin, Mic, Search, Truck } from "lucide-react";
@@ -56,6 +57,14 @@ const FEATURES = [
 
 function Index() {
   const { data, isLoading } = useQuery(catalogQueryOptions);
+  const promos = (data?.products ?? [])
+    .filter((product) => product.stocks.some((stock) => discountPercent(stock) !== null))
+    .sort((a, b) => {
+      const da = Math.max(...a.stocks.map((s) => discountPercent(s) ?? 0));
+      const db = Math.max(...b.stocks.map((s) => discountPercent(s) ?? 0));
+      return db - da;
+    })
+    .slice(0, 6);
   const highlights = data?.products.slice(0, 12) ?? [];
 
   return (
@@ -75,6 +84,33 @@ function Index() {
               <Link to="/lojas">Ver lojas parceiras</Link>
             </Button>
           </div>
+        </div>
+      </section>
+
+      <section className="container pt-12">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <h2 className="text-2xl font-semibold">🔥 Produtos em promoção</h2>
+            <p className="text-sm text-muted-foreground">
+              Preços com desconto nas lojas parceiras, por tempo limitado.
+            </p>
+          </div>
+          <Button asChild variant="ghost" size="sm">
+            <Link to="/buscar">Ver todos</Link>
+          </Button>
+        </div>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {isLoading
+            ? Array.from({ length: 3 }).map((_, i) => (
+                <Skeleton key={i} className="h-64 w-full rounded-xl" />
+              ))
+            : promos.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  stores={data?.stores ?? []}
+                />
+              ))}
         </div>
       </section>
 
@@ -131,6 +167,11 @@ function Index() {
                   <MapPin className="h-4 w-4" aria-hidden="true" />
                   {store.address} · {store.distanceKm.toFixed(1)} km
                 </p>
+                <Button asChild variant="outline" size="sm" className="w-full">
+                  <Link to="/loja/$id" params={{ id: store.id }}>
+                    Ver produtos da loja
+                  </Link>
+                </Button>
               </CardContent>
             </Card>
           ))}

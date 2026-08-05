@@ -6,10 +6,13 @@ import { useAccessibility } from "@/lib/accessibility";
 import { catalogQueryOptions } from "@/lib/catalog";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { Mic, MicOff, Search } from "lucide-react";
-import { useMemo, useState } from "react";
+import { Mic, MicOff, Search, Tag } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 
 export const Route = createFileRoute("/buscar")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    q: typeof search['q'] === "string" ? (search['q'] as string) : "",
+  }),
   head: () => ({
     meta: [
       { title: "Buscar produtos | ConectaMercado" },
@@ -29,11 +32,17 @@ export const Route = createFileRoute("/buscar")({
 });
 
 function SearchPage() {
+  const { q } = Route.useSearch();
   const { data, isLoading } = useQuery(catalogQueryOptions);
   const { isListening, startListening, stopListening, voiceSupportError, speak } =
     useAccessibility();
-  const [term, setTerm] = useState("");
+  const [term, setTerm] = useState(q);
   const [category, setCategory] = useState<string | null>(null);
+  const [onlyPromo, setOnlyPromo] = useState(false);
+
+  useEffect(() => {
+    setTerm(q);
+  }, [q]);
 
   const results = useMemo(() => {
     const products = data?.products ?? [];
@@ -45,9 +54,14 @@ function SearchPage() {
         product.description.toLowerCase().includes(normalized) ||
         product.category.toLowerCase().includes(normalized);
       const matchesCategory = !category || product.category === category;
-      return matchesTerm && matchesCategory;
+      const matchesPromo =
+        !onlyPromo ||
+        product.stocks.some(
+          (stock) => stock.promoPrice !== null && stock.promoPrice < stock.price,
+        );
+      return matchesTerm && matchesCategory && matchesPromo;
     });
-  }, [data, term, category]);
+  }, [data, term, category, onlyPromo]);
 
   const handleVoiceSearch = () => {
     if (isListening) {
@@ -103,6 +117,15 @@ function SearchPage() {
       )}
 
       <div className="flex flex-wrap gap-2" role="group" aria-label="Filtrar por categoria">
+        <Button
+          size="sm"
+          variant={onlyPromo ? "destructive" : "outline"}
+          onClick={() => setOnlyPromo((value) => !value)}
+          aria-pressed={onlyPromo}
+        >
+          <Tag className="mr-1 h-4 w-4" aria-hidden="true" />
+          Só promoções
+        </Button>
         <Button
           size="sm"
           variant={category === null ? "default" : "outline"}

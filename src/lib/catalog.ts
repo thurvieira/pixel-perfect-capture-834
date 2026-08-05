@@ -28,6 +28,7 @@ interface StockRow {
   product_id: string;
   store_id: string;
   price: number;
+  promo_price: number | null;
   stock: number;
 }
 
@@ -78,9 +79,10 @@ export async function fetchCatalog(): Promise<Catalog> {
       .map((stock) => ({
         storeId: stock.store_id,
         price: Number(stock.price),
+        promoPrice: stock.promo_price === null ? null : Number(stock.promo_price),
         stock: stock.stock,
       }))
-      .sort((a, b) => a.price - b.price),
+      .sort((a, b) => (a.promoPrice ?? a.price) - (b.promoPrice ?? b.price)),
   }));
 
   const categories = Array.from(new Set(products.map((p) => p.category))).sort();

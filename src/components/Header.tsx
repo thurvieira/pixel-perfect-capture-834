@@ -1,5 +1,6 @@
 import logoAsset from "@/assets/conectamercado-logo.png.asset.json";
 import AuthButton from "@/components/AuthButton";
+import BackButton from "@/components/BackButton";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { APP_NAME } from "@/lib/const";
@@ -20,14 +21,17 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-30 border-b bg-background/95 backdrop-blur">
       <div className="container flex h-16 items-center justify-between">
-        <Link
-          to="/"
-          className="flex items-center gap-2 font-semibold"
-          aria-label={`${APP_NAME} — página inicial`}
-        >
-          <img src={logoAsset.url} alt="" className="h-9 w-9" aria-hidden="true" />
-          <span className="text-lg">{APP_NAME}</span>
-        </Link>
+        <div className="flex items-center gap-1">
+          <BackButton />
+          <Link
+            to="/"
+            className="flex items-center gap-2 font-semibold"
+            aria-label={`${APP_NAME} — página inicial`}
+          >
+            <img src={logoAsset.url} alt="" className="h-9 w-9" aria-hidden="true" />
+            <span className="hidden text-lg sm:inline">{APP_NAME}</span>
+          </Link>
+        </div>
 
         <nav className="hidden items-center gap-1 sm:flex" aria-label="Navegação principal">
           {NAV_LINKS.map((link) => (

@@ -2,6 +2,10 @@ import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { useAccessibility } from "@/lib/accessibility";
+import { catalogQueryOptions } from "@/lib/catalog";
+import { resolveVoiceQuery } from "@/lib/voice-search";
+import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "@tanstack/react-router";
 import {
   Contrast,
   Ear,
@@ -34,6 +38,9 @@ export default function AccessibilityPanel() {
     stopListening,
   } = useAccessibility();
   const [lastCommand, setLastCommand] = useState("");
+  const [lastAnswer, setLastAnswer] = useState("");
+  const { data: catalog } = useQuery(catalogQueryOptions);
+  const navigate = useNavigate();
 
   const handleVoiceCommand = () => {
     if (isListening) {
@@ -42,7 +49,15 @@ export default function AccessibilityPanel() {
     }
     startListening((transcript) => {
       setLastCommand(transcript);
-      speak(`Você disse: ${transcript}`);
+      if (!catalog) {
+        setLastAnswer("Catálogo ainda carregando, tente de novo em instantes.");
+        speak("Catálogo ainda carregando, tente de novo em instantes.");
+        return;
+      }
+      const result = resolveVoiceQuery(transcript, catalog);
+      setLastAnswer(result.message);
+      speak(result.message);
+      navigate(result.navigate as never);
     });
   };
 
@@ -129,6 +144,14 @@ export default function AccessibilityPanel() {
               Último comando: "{lastCommand}"
             </p>
           )}
+          {lastAnswer && (
+            <p className="text-xs" aria-live="polite">
+              {lastAnswer}
+            </p>
+          )}
+          <p className="text-xs text-muted-foreground">
+            Ex.: "tem arroz no Sonda?" ou "quero leite".
+          </p>
 
           <Separator />
 

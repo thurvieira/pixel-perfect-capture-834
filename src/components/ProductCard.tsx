@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { useAudioDescribe } from "@/lib/accessibility";
-import { formatPrice } from "@/lib/format";
+import { discountPercent, effectivePrice, formatPrice } from "@/lib/format";
 import type { Product, Store } from "@/lib/types";
 import { Link } from "@tanstack/react-router";
 import { Volume2 } from "lucide-react";
@@ -17,18 +17,37 @@ export default function ProductCard({ product, stores }: ProductCardProps) {
   const describe = useAudioDescribe();
   const best = product.stocks[0];
   const bestStore = stores.find((store) => store.id === best?.storeId);
+  const bestPrice = best ? effectivePrice(best) : null;
+  const off = best ? discountPercent(best) : null;
 
   const summary = `${product.name}, ${product.unit}. ${product.audioDescription}. ${
     best
-      ? `Melhor preço ${formatPrice(best.price)} no ${bestStore?.name ?? "parceiro"}.`
+      ? `Melhor preço ${formatPrice(bestPrice ?? 0)} no ${bestStore?.name ?? "parceiro"}.`
       : "Sem estoque disponível."
   }`;
 
   return (
     <Card className="flex h-full flex-col">
-      <ProductImage product={product} className="aspect-[4/3] w-full rounded-b-none" />
+      <Link
+        to="/produto/$id"
+        params={{ id: product.id }}
+        aria-label={`Ver detalhes de ${product.name}`}
+        className="block"
+      >
+        <ProductImage
+          product={product}
+          className="aspect-[4/3] w-full rounded-b-none transition-opacity hover:opacity-90"
+        />
+      </Link>
       <CardContent className="flex-1 space-y-3 pt-4">
-        <div className="flex items-start justify-end">
+        <div className="flex items-start justify-between gap-2">
+          {off !== null ? (
+            <Badge className="bg-destructive text-destructive-foreground">
+              -{off}% OFF
+            </Badge>
+          ) : (
+            <span />
+          )}
           <Badge variant="secondary">{product.category}</Badge>
         </div>
         <div>
@@ -43,7 +62,14 @@ export default function ProductCard({ product, stores }: ProductCardProps) {
         {best ? (
           <p className="text-sm">
             A partir de{" "}
-            <strong className="text-lg text-primary">{formatPrice(best.price)}</strong>
+            <strong className="text-2xl font-extrabold text-primary">
+              {formatPrice(bestPrice ?? best.price)}
+            </strong>
+            {off !== null && (
+              <span className="ml-2 text-sm text-muted-foreground line-through">
+                {formatPrice(best.price)}
+              </span>
+            )}
             {bestStore && (
               <span className="block text-xs text-muted-foreground">
                 {bestStore.name} · {bestStore.distanceKm.toFixed(1)} km

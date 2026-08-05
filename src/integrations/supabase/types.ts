@@ -74,6 +74,7 @@ export type Database = {
           created_at: string
           id: string
           order_mode: Database["public"]["Enums"]["order_mode"]
+          status: string
           total: number
           user_id: string
         }
@@ -81,6 +82,7 @@ export type Database = {
           created_at?: string
           id?: string
           order_mode?: Database["public"]["Enums"]["order_mode"]
+          status?: string
           total?: number
           user_id: string
         }
@@ -88,6 +90,7 @@ export type Database = {
           created_at?: string
           id?: string
           order_mode?: Database["public"]["Enums"]["order_mode"]
+          status?: string
           total?: number
           user_id?: string
         }
@@ -97,18 +100,21 @@ export type Database = {
         Row: {
           price: number
           product_id: string
+          promo_price: number | null
           stock: number
           store_id: string
         }
         Insert: {
           price: number
           product_id: string
+          promo_price?: number | null
           stock?: number
           store_id: string
         }
         Update: {
           price?: number
           product_id?: string
+          promo_price?: number | null
           stock?: number
           store_id?: string
         }
@@ -206,7 +212,24 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      check_cart_availability: {
+        Args: { p_items: Json }
+        Returns: {
+          available: number
+          is_available: boolean
+          product_id: string
+          requested: number
+          store_id: string
+          unit_price: number
+        }[]
+      }
+      place_order: {
+        Args: {
+          p_items: Json
+          p_mode: Database["public"]["Enums"]["order_mode"]
+        }
+        Returns: string
+      }
     }
     Enums: {
       order_mode: "delivery" | "pickup" | "lookup"

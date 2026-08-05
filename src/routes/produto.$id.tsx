@@ -6,7 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useAccessibility, useAudioDescribe } from "@/lib/accessibility";
 import { useCart } from "@/lib/cart";
 import { catalogQueryOptions } from "@/lib/catalog";
-import { STORE_TYPE_LABEL, formatPrice } from "@/lib/format";
+import { STORE_TYPE_LABEL, discountPercent, effectivePrice, formatPrice } from "@/lib/format";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { MapPin, Plus, Volume2 } from "lucide-react";
@@ -104,6 +104,7 @@ function ProductDetail() {
           {product.stocks.map((stock, index) => {
             const store = data?.stores.find((item) => item.id === stock.storeId);
             if (!store) return null;
+            const off = discountPercent(stock);
             return (
               <Card key={stock.storeId}>
                 <CardContent className="flex flex-wrap items-center justify-between gap-3 py-4">
@@ -114,18 +115,38 @@ function ProductDetail() {
                         {STORE_TYPE_LABEL[store.type] ?? store.type}
                       </Badge>
                       {index === 0 && <Badge>Melhor preço</Badge>}
+                      {off !== null && (
+                        <Badge className="bg-destructive text-destructive-foreground">
+                          -{off}% OFF
+                        </Badge>
+                      )}
                     </div>
                     <p className="flex items-center gap-1 text-xs text-muted-foreground">
                       <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
                       {store.address} · {store.distanceKm.toFixed(1)} km
                     </p>
-                    <p className="text-xs text-muted-foreground">
-                      {stock.stock > 0 ? `${stock.stock} em estoque` : "Sem estoque"}
+                    <p
+                      className={`inline-flex rounded-md px-3 py-2 text-base font-bold ${
+                        stock.stock > 0
+                          ? "bg-primary/10 text-primary"
+                          : "bg-destructive/10 text-destructive"
+                      }`}
+                    >
+                      {stock.stock > 0
+                        ? `${stock.stock} unidade(s) em estoque`
+                        : "Sem estoque"}
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className="text-xl font-semibold text-primary">
-                      {formatPrice(stock.price)}
+                    <span className="flex flex-col items-end">
+                      <span className="text-2xl font-extrabold text-primary">
+                        {formatPrice(effectivePrice(stock))}
+                      </span>
+                      {off !== null && (
+                        <span className="text-xs text-muted-foreground line-through">
+                          {formatPrice(stock.price)}
+                        </span>
+                      )}
                     </span>
                     <Button
                       size="sm"
