@@ -14,6 +14,7 @@ export interface Store {
 export interface ProductStock {
   storeId: string;
   price: number;
+  promoPrice: number | null;
   stock: number;
 }
 

@@ -2,9 +2,10 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { catalogQueryOptions } from "@/lib/catalog";
-import { STORE_TYPE_LABEL, formatPrice } from "@/lib/format";
+import { Button } from "@/components/ui/button";
+import { STORE_TYPE_LABEL, effectivePrice, formatPrice } from "@/lib/format";
 import { useQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { MapPin, PackageCheck, ShoppingBag, Truck } from "lucide-react";
 
 export const Route = createFileRoute("/lojas")({
@@ -51,7 +52,7 @@ function StoresPage() {
                 .flatMap((product) =>
                   product.stocks
                     .filter((stock) => stock.storeId === store.id)
-                    .map((stock) => stock.price),
+                    .map((stock) => effectivePrice(stock)),
                 )
                 .sort((a, b) => a - b)[0];
 
@@ -97,6 +98,12 @@ function StoresPage() {
                         </span>
                       )}
                     </p>
+
+                    <Button asChild className="w-full">
+                      <Link to="/loja/$id" params={{ id: store.id }}>
+                        Ver produtos da loja
+                      </Link>
+                    </Button>
                   </CardContent>
                 </Card>
               );
