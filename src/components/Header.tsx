@@ -1,4 +1,3 @@
-import logoAsset from "@/assets/conectamercado-logo.png.asset.json";
 import AuthButton from "@/components/AuthButton";
 import BackButton from "@/components/BackButton";
 import { Badge } from "@/components/ui/badge";
@@ -28,7 +27,11 @@ export default function Header() {
             className="flex items-center gap-2 font-semibold"
             aria-label={`${APP_NAME} — página inicial`}
           >
-            <img src={logoAsset.url} alt="" className="h-9 w-9" aria-hidden="true" />
+            <img
+  src="/favicon.png"
+  alt="Conecta Mercado"
+  className="h-9 w-9"
+/>
             <span className="hidden text-lg sm:inline">{APP_NAME}</span>
           </Link>
         </div>
