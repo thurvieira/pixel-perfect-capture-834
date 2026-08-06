@@ -3,7 +3,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import logoAsset from "@/assets/conectamercado-logo.png.asset.json";
 import { APP_NAME, APP_TAGLINE } from "@/lib/const";
 import { catalogQueryOptions } from "@/lib/catalog";
 import { STORE_TYPE_LABEL } from "@/lib/format";
@@ -71,7 +70,7 @@ function Index() {
     <main className="pb-16">
       <section className="border-b bg-secondary/40">
         <div className="container flex flex-col items-center gap-6 py-14 text-center">
-          <img src={logoAsset.url} alt="" className="h-16 w-16" aria-hidden="true" />
+          <img src="/favicon.png" alt="Conecta Mercado" />
           <div className="space-y-3">
             <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">{APP_NAME}</h1>
             <p className="mx-auto max-w-2xl text-muted-foreground">{APP_TAGLINE}</p>
