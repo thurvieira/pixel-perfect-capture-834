@@ -161,9 +161,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
     ],
   );
 
-  return (
-    <AccessibilityContext.Provider value={value}>{children}</AccessibilityContext.Provider>
-  );
+  return <AccessibilityContext.Provider value={value}>{children}</AccessibilityContext.Provider>;
 }
 
 export function useAccessibility() {

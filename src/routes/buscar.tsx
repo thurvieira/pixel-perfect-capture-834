@@ -11,7 +11,7 @@ import { useEffect, useMemo, useState } from "react";
 
 export const Route = createFileRoute("/buscar")({
   validateSearch: (search: Record<string, unknown>) => ({
-    q: typeof search['q'] === "string" ? (search['q'] as string) : "",
+    q: typeof search["q"] === "string" ? (search["q"] as string) : "",
   }),
   head: () => ({
     meta: [
@@ -56,9 +56,7 @@ function SearchPage() {
       const matchesCategory = !category || product.category === category;
       const matchesPromo =
         !onlyPromo ||
-        product.stocks.some(
-          (stock) => stock.promoPrice !== null && stock.promoPrice < stock.price,
-        );
+        product.stocks.some((stock) => stock.promoPrice !== null && stock.promoPrice < stock.price);
       return matchesTerm && matchesCategory && matchesPromo;
     });
   }, [data, term, category, onlyPromo]);
@@ -78,9 +76,7 @@ function SearchPage() {
     <main className="container space-y-6 py-10">
       <div className="space-y-2">
         <h1 className="text-3xl font-bold tracking-tight">Buscar produtos</h1>
-        <p className="text-muted-foreground">
-          Digite o nome do produto ou use a busca por voz.
-        </p>
+        <p className="text-muted-foreground">Digite o nome do produto ou use a busca por voz.</p>
       </div>
 
       <div className="flex flex-col gap-3 sm:flex-row">
@@ -102,11 +98,7 @@ function SearchPage() {
           onClick={handleVoiceSearch}
           aria-pressed={isListening}
         >
-          {isListening ? (
-            <Mic className="mr-2 h-4 w-4" />
-          ) : (
-            <MicOff className="mr-2 h-4 w-4" />
-          )}
+          {isListening ? <Mic className="mr-2 h-4 w-4" /> : <MicOff className="mr-2 h-4 w-4" />}
           {isListening ? "Ouvindo…" : "Buscar por voz"}
         </Button>
       </div>
@@ -148,9 +140,7 @@ function SearchPage() {
       </div>
 
       <p className="text-sm text-muted-foreground" aria-live="polite">
-        {isLoading
-          ? "Carregando produtos…"
-          : `${results.length} produto(s) encontrado(s).`}
+        {isLoading ? "Carregando produtos…" : `${results.length} produto(s) encontrado(s).`}
       </p>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

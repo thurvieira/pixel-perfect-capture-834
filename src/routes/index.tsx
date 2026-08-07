@@ -104,11 +104,7 @@ function Index() {
                 <Skeleton key={i} className="h-64 w-full rounded-xl" />
               ))
             : promos.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  stores={data?.stores ?? []}
-                />
+                <ProductCard key={product.id} product={product} stores={data?.stores ?? []} />
               ))}
         </div>
       </section>
@@ -141,11 +137,7 @@ function Index() {
                 <Skeleton key={i} className="h-64 w-full rounded-xl" />
               ))
             : highlights.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  stores={data?.stores ?? []}
-                />
+                <ProductCard key={product.id} product={product} stores={data?.stores ?? []} />
               ))}
         </div>
       </section>
@@ -158,9 +150,7 @@ function Index() {
               <CardContent className="space-y-2 pt-6">
                 <div className="flex items-center justify-between gap-2">
                   <h3 className="font-semibold">{store.name}</h3>
-                  <Badge variant="secondary">
-                    {STORE_TYPE_LABEL[store.type] ?? store.type}
-                  </Badge>
+                  <Badge variant="secondary">{STORE_TYPE_LABEL[store.type] ?? store.type}</Badge>
                 </div>
                 <p className="flex items-center gap-1 text-sm text-muted-foreground">
                   <MapPin className="h-4 w-4" aria-hidden="true" />

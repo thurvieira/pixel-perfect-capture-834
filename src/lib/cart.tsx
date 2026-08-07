@@ -85,9 +85,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       }
       setItems((prev) =>
         prev.map((item) =>
-          item.productId === productId && item.storeId === storeId
-            ? { ...item, quantity }
-            : item,
+          item.productId === productId && item.storeId === storeId ? { ...item, quantity } : item,
         ),
       );
     },
@@ -98,10 +96,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const setOrderMode = useCallback((mode: OrderMode) => setOrderModeState(mode), []);
 
-  const totalItems = useMemo(
-    () => items.reduce((sum, item) => sum + item.quantity, 0),
-    [items],
-  );
+  const totalItems = useMemo(() => items.reduce((sum, item) => sum + item.quantity, 0), [items]);
 
   const value = useMemo<CartContextValue>(
     () => ({
@@ -114,16 +109,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       clearCart,
       totalItems,
     }),
-    [
-      items,
-      orderMode,
-      setOrderMode,
-      addItem,
-      removeItem,
-      updateQuantity,
-      clearCart,
-      totalItems,
-    ],
+    [items, orderMode, setOrderMode, addItem, removeItem, updateQuantity, clearCart, totalItems],
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

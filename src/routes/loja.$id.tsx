@@ -6,12 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useAudioDescribe } from "@/lib/accessibility";
 import { useCart } from "@/lib/cart";
 import { catalogQueryOptions } from "@/lib/catalog";
-import {
-  STORE_TYPE_LABEL,
-  discountPercent,
-  effectivePrice,
-  formatPrice,
-} from "@/lib/format";
+import { STORE_TYPE_LABEL, discountPercent, effectivePrice, formatPrice } from "@/lib/format";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { MapPin, PackageCheck, Plus, Tag, Truck } from "lucide-react";
@@ -20,7 +15,7 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/loja/$id")({
   validateSearch: (search: Record<string, unknown>) => ({
-    q: typeof search['q'] === "string" ? (search['q'] as string) : "",
+    q: typeof search["q"] === "string" ? (search["q"] as string) : "",
   }),
   head: () => ({
     meta: [
@@ -84,9 +79,7 @@ function StoreDetail() {
   const categories = Array.from(new Set(entries.map((e) => e.product.category))).sort();
   const term = q.trim().toLowerCase();
   const byCategory =
-    category === "todas"
-      ? entries
-      : entries.filter((entry) => entry.product.category === category);
+    category === "todas" ? entries : entries.filter((entry) => entry.product.category === category);
   const bySearch = term
     ? byCategory.filter(
         (entry) =>
@@ -96,8 +89,7 @@ function StoreDetail() {
     : byCategory;
   const visible = onlyPromo
     ? bySearch.filter(
-        (entry) =>
-          entry.stock.promoPrice !== null && entry.stock.promoPrice < entry.stock.price,
+        (entry) => entry.stock.promoPrice !== null && entry.stock.promoPrice < entry.stock.price,
       )
     : bySearch;
 
@@ -193,11 +185,7 @@ function StoreDetail() {
                 </div>
                 <div>
                   <h2 className="font-semibold leading-tight">
-                    <Link
-                      to="/produto/$id"
-                      params={{ id: product.id }}
-                      className="hover:underline"
-                    >
+                    <Link to="/produto/$id" params={{ id: product.id }} className="hover:underline">
                       {product.name}
                     </Link>
                   </h2>
@@ -220,9 +208,7 @@ function StoreDetail() {
                       : "bg-destructive/10 text-destructive"
                   }`}
                 >
-                  {stock.stock > 0
-                    ? `${stock.stock} unidade(s) em estoque`
-                    : "Sem estoque"}
+                  {stock.stock > 0 ? `${stock.stock} unidade(s) em estoque` : "Sem estoque"}
                 </p>
                 <Button
                   className="mt-auto"
