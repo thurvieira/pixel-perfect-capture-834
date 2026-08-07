@@ -10,7 +10,7 @@ import { Mic, MicOff, Search, Tag } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
 export const Route = createFileRoute("/buscar")({
-  validateSearch: (search: Record<string, unknown>) => ({
+  validateSearch: (search: Record<string, unknown>): { q?: string } => ({
     q: typeof search["q"] === "string" ? (search["q"] as string) : "",
   }),
   head: () => ({
