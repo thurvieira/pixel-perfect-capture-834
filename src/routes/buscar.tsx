@@ -32,7 +32,7 @@ export const Route = createFileRoute("/buscar")({
 });
 
 function SearchPage() {
-  const { q } = Route.useSearch();
+  const { q = "" } = Route.useSearch();
   const { data, isLoading } = useQuery(catalogQueryOptions);
   const { isListening, startListening, stopListening, voiceSupportError, speak } =
     useAccessibility();

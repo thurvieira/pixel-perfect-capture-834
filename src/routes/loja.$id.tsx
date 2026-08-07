@@ -37,7 +37,7 @@ export const Route = createFileRoute("/loja/$id")({
 
 function StoreDetail() {
   const { id } = Route.useParams();
-  const { q } = Route.useSearch();
+  const { q = "" } = Route.useSearch();
   const { data, isLoading } = useQuery(catalogQueryOptions);
   const { addItem } = useCart();
   const describe = useAudioDescribe();
