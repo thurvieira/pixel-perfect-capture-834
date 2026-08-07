@@ -6,12 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useAudioDescribe } from "@/lib/accessibility";
 import { useCart } from "@/lib/cart";
 import { catalogQueryOptions } from "@/lib/catalog";
-import {
-  ORDER_MODE_LABEL,
-  discountPercent,
-  effectivePrice,
-  formatPrice,
-} from "@/lib/format";
+import { ORDER_MODE_LABEL, discountPercent, effectivePrice, formatPrice } from "@/lib/format";
 import { checkCartAvailability, placeOrder, type AvailabilityRow } from "@/lib/orders";
 import { useSession } from "@/lib/session";
 import type { OrderMode } from "@/lib/types";
@@ -62,8 +57,7 @@ const STATUS_LABEL: Record<OrderStatus["step"], string> = {
 
 function CartPage() {
   const { data, isLoading } = useQuery(catalogQueryOptions);
-  const { items, orderMode, setOrderMode, updateQuantity, removeItem, clearCart } =
-    useCart();
+  const { items, orderMode, setOrderMode, updateQuantity, removeItem, clearCart } = useCart();
   const { user } = useSession();
   const describe = useAudioDescribe();
   const navigate = useNavigate();
@@ -121,9 +115,7 @@ function CartPage() {
       );
     } catch (error) {
       setStatus({ step: "idle" });
-      toast.error(
-        error instanceof Error ? error.message : "Não foi possível confirmar o pedido.",
-      );
+      toast.error(error instanceof Error ? error.message : "Não foi possível confirmar o pedido.");
     }
   };
 
@@ -140,9 +132,7 @@ function CartPage() {
     <main className="container space-y-8 py-10">
       <div className="space-y-2">
         <h1 className="text-3xl font-bold tracking-tight">Seu carrinho</h1>
-        <p className="text-muted-foreground">
-          Revise seus itens e escolha como quer receber.
-        </p>
+        <p className="text-muted-foreground">Revise seus itens e escolha como quer receber.</p>
       </div>
 
       <section className="space-y-3">
@@ -193,10 +183,7 @@ function CartPage() {
         </div>
       ) : (
         <>
-          <div
-            className="flex items-center gap-2 rounded-lg border p-3 text-sm"
-            aria-live="polite"
-          >
+          <div className="flex items-center gap-2 rounded-lg border p-3 text-sm" aria-live="polite">
             {submitting ? (
               <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
             ) : status.step === "invalid" ? (
@@ -214,76 +201,76 @@ function CartPage() {
               const issue = issueFor(item.productId, item.storeId);
               const off = discountPercent(stock);
               return (
-              <Card
-                key={`${item.productId}-${item.storeId}`}
-                className={issue ? "border-destructive" : undefined}
-              >
-                <CardContent className="flex flex-wrap items-center justify-between gap-4 py-4">
-                  <div className="flex items-center gap-3">
-                    <ProductImage
-                      product={product}
-                      className="h-16 w-16 shrink-0"
-                      emojiClassName="text-3xl"
-                    />
-                    <div>
-                      <h3 className="font-semibold">{product.name}</h3>
-                      <p className="text-xs text-muted-foreground">
-                        {store.name} · {formatPrice(price)} / {product.unit}
-                      </p>
-                      {off !== null && (
-                        <Badge className="mt-1 bg-destructive text-destructive-foreground">
-                          -{off}% OFF
-                        </Badge>
-                      )}
-                      {issue && (
-                        <p className="mt-1 text-xs font-medium text-destructive">
-                          Apenas {issue.available} unidade(s) em estoque de{" "}
-                          {issue.requested} pedida(s).
+                <Card
+                  key={`${item.productId}-${item.storeId}`}
+                  className={issue ? "border-destructive" : undefined}
+                >
+                  <CardContent className="flex flex-wrap items-center justify-between gap-4 py-4">
+                    <div className="flex items-center gap-3">
+                      <ProductImage
+                        product={product}
+                        className="h-16 w-16 shrink-0"
+                        emojiClassName="text-3xl"
+                      />
+                      <div>
+                        <h3 className="font-semibold">{product.name}</h3>
+                        <p className="text-xs text-muted-foreground">
+                          {store.name} · {formatPrice(price)} / {product.unit}
                         </p>
-                      )}
+                        {off !== null && (
+                          <Badge className="mt-1 bg-destructive text-destructive-foreground">
+                            -{off}% OFF
+                          </Badge>
+                        )}
+                        {issue && (
+                          <p className="mt-1 text-xs font-medium text-destructive">
+                            Apenas {issue.available} unidade(s) em estoque de {issue.requested}{" "}
+                            pedida(s).
+                          </p>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Button
-                      size="icon"
-                      variant="outline"
-                      className="h-8 w-8"
-                      onClick={() =>
-                        updateQuantity(item.productId, item.storeId, item.quantity - 1)
-                      }
-                      aria-label={`Diminuir quantidade de ${product.name}`}
-                    >
-                      <Minus className="h-3.5 w-3.5" />
-                    </Button>
-                    <span className="w-8 text-center" aria-live="polite">
-                      {item.quantity}
-                    </span>
-                    <Button
-                      size="icon"
-                      variant="outline"
-                      className="h-8 w-8"
-                      onClick={() =>
-                        updateQuantity(item.productId, item.storeId, item.quantity + 1)
-                      }
-                      aria-label={`Aumentar quantidade de ${product.name}`}
-                    >
-                      <Plus className="h-3.5 w-3.5" />
-                    </Button>
-                    <span className="w-24 text-right font-semibold">
-                      {formatPrice(price * item.quantity)}
-                    </span>
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      className="h-8 w-8"
-                      onClick={() => removeItem(item.productId, item.storeId)}
-                      aria-label={`Remover ${product.name} do carrinho`}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+                    <div className="flex items-center gap-2">
+                      <Button
+                        size="icon"
+                        variant="outline"
+                        className="h-8 w-8"
+                        onClick={() =>
+                          updateQuantity(item.productId, item.storeId, item.quantity - 1)
+                        }
+                        aria-label={`Diminuir quantidade de ${product.name}`}
+                      >
+                        <Minus className="h-3.5 w-3.5" />
+                      </Button>
+                      <span className="w-8 text-center" aria-live="polite">
+                        {item.quantity}
+                      </span>
+                      <Button
+                        size="icon"
+                        variant="outline"
+                        className="h-8 w-8"
+                        onClick={() =>
+                          updateQuantity(item.productId, item.storeId, item.quantity + 1)
+                        }
+                        aria-label={`Aumentar quantidade de ${product.name}`}
+                      >
+                        <Plus className="h-3.5 w-3.5" />
+                      </Button>
+                      <span className="w-24 text-right font-semibold">
+                        {formatPrice(price * item.quantity)}
+                      </span>
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        className="h-8 w-8"
+                        onClick={() => removeItem(item.productId, item.storeId)}
+                        aria-label={`Remover ${product.name} do carrinho`}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
               );
             })}
           </section>
@@ -292,9 +279,7 @@ function CartPage() {
 
           <section className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="text-sm text-muted-foreground">
-                {ORDER_MODE_LABEL[orderMode]}
-              </p>
+              <p className="text-sm text-muted-foreground">{ORDER_MODE_LABEL[orderMode]}</p>
               <p className="text-2xl font-bold">Total: {formatPrice(total)}</p>
             </div>
             <div className="flex gap-2">
@@ -308,7 +293,10 @@ function CartPage() {
           </section>
           {!user && (
             <p className="text-sm text-muted-foreground">
-              Você precisa <Link to="/auth" className="underline">entrar na sua conta</Link>{" "}
+              Você precisa{" "}
+              <Link to="/auth" className="underline">
+                entrar na sua conta
+              </Link>{" "}
               para confirmar o pedido.
             </p>
           )}

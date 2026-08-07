@@ -77,9 +77,7 @@ function OrdersPage() {
     return (
       <main className="container space-y-4 py-16 text-center">
         <h1 className="text-2xl font-semibold">Meus pedidos</h1>
-        <p className="text-muted-foreground">
-          Entre na sua conta para ver o histórico de pedidos.
-        </p>
+        <p className="text-muted-foreground">Entre na sua conta para ver o histórico de pedidos.</p>
         <Button asChild>
           <Link to="/auth">Entrar</Link>
         </Button>
@@ -109,9 +107,7 @@ function OrdersPage() {
 
       <div className="space-y-4">
         {orders.map((order) => {
-          const orderItems = (data?.items ?? []).filter(
-            (item) => item.order_id === order.id,
-          );
+          const orderItems = (data?.items ?? []).filter((item) => item.order_id === order.id);
           return (
             <Card key={order.id}>
               <CardContent className="space-y-3 pt-6">
@@ -130,9 +126,7 @@ function OrdersPage() {
                 </div>
                 <ul className="space-y-1 text-sm text-muted-foreground">
                   {orderItems.map((item, index) => {
-                    const product = catalog?.products.find(
-                      (p) => p.id === item.product_id,
-                    );
+                    const product = catalog?.products.find((p) => p.id === item.product_id);
                     const store = catalog?.stores.find((s) => s.id === item.store_id);
                     return (
                       <li key={`${item.order_id}-${index}`}>

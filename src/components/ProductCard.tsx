@@ -42,9 +42,7 @@ export default function ProductCard({ product, stores }: ProductCardProps) {
       <CardContent className="flex-1 space-y-3 pt-4">
         <div className="flex items-start justify-between gap-2">
           {off !== null ? (
-            <Badge className="bg-destructive text-destructive-foreground">
-              -{off}% OFF
-            </Badge>
+            <Badge className="bg-destructive text-destructive-foreground">-{off}% OFF</Badge>
           ) : (
             <span />
           )}

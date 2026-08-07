@@ -32,9 +32,7 @@ function toPayload(items: CartItem[]) {
  * Second validation: re-checks live stock for every cart line right before
  * confirming, so quantities are guaranteed against the store inventory.
  */
-export async function checkCartAvailability(
-  items: CartItem[],
-): Promise<AvailabilityRow[]> {
+export async function checkCartAvailability(items: CartItem[]): Promise<AvailabilityRow[]> {
   if (items.length === 0) return [];
   const { data, error } = await rpc.call(supabase, "check_cart_availability", {
     p_items: toPayload(items),

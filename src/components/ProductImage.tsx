@@ -8,11 +8,7 @@ interface ProductImageProps {
   emojiClassName?: string;
 }
 
-export default function ProductImage({
-  product,
-  className,
-  emojiClassName,
-}: ProductImageProps) {
+export default function ProductImage({ product, className, emojiClassName }: ProductImageProps) {
   const [failed, setFailed] = useState(false);
   const showImage = Boolean(product.imageUrl) && !failed;
 

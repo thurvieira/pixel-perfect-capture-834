@@ -50,9 +50,7 @@ export default function AuthButton() {
         >
           <Avatar className="h-9 w-9">
             <AvatarImage src={avatarUrl} alt="" />
-            <AvatarFallback>
-              {initials || <UserIcon className="h-4 w-4" />}
-            </AvatarFallback>
+            <AvatarFallback>{initials || <UserIcon className="h-4 w-4" />}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>

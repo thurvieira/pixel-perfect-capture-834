@@ -83,9 +83,7 @@ function ProductDetail() {
           <Button
             variant="outline"
             size="sm"
-            onClick={() =>
-              describe(`${product.name}. ${product.audioDescription}`)
-            }
+            onClick={() => describe(`${product.name}. ${product.audioDescription}`)}
           >
             <Volume2 className="mr-2 h-4 w-4" />
             Ouvir áudio-descrição
@@ -132,9 +130,7 @@ function ProductDetail() {
                           : "bg-destructive/10 text-destructive"
                       }`}
                     >
-                      {stock.stock > 0
-                        ? `${stock.stock} unidade(s) em estoque`
-                        : "Sem estoque"}
+                      {stock.stock > 0 ? `${stock.stock} unidade(s) em estoque` : "Sem estoque"}
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
@@ -154,9 +150,7 @@ function ProductDetail() {
                       onClick={() => {
                         addItem(product.id, store.id);
                         toast.success(`${product.name} adicionado ao carrinho.`);
-                        describe(
-                          `${product.name} adicionado ao carrinho na loja ${store.name}.`,
-                        );
+                        describe(`${product.name} adicionado ao carrinho na loja ${store.name}.`);
                       }}
                     >
                       <Plus className="mr-1 h-4 w-4" />

@@ -7,10 +7,7 @@ export function formatPrice(value: number): string {
   return priceFormatter.format(value);
 }
 
-export function effectivePrice(stock: {
-  price: number;
-  promoPrice?: number | null;
-}): number {
+export function effectivePrice(stock: { price: number; promoPrice?: number | null }): number {
   return stock.promoPrice ?? stock.price;
 }
 

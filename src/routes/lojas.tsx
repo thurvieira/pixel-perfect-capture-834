@@ -82,8 +82,8 @@ function StoresPage() {
                       )}
                       {store.pickupAvailable && (
                         <span className="inline-flex items-center gap-1 rounded-full bg-secondary px-2 py-1">
-                          <PackageCheck className="h-3.5 w-3.5" aria-hidden="true" /> Clique
-                          e retire
+                          <PackageCheck className="h-3.5 w-3.5" aria-hidden="true" /> Clique e
+                          retire
                         </span>
                       )}
                     </div>

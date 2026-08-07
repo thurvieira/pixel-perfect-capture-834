@@ -13,11 +13,67 @@ export function normalize(text: string) {
 }
 
 const STOP_WORDS = new Set([
-  "tem","teem","tem?","o","a","os","as","um","uma","de","do","da","dos","das","no","na","nos","nas",
-  "em","para","pra","por","com","quero","queria","buscar","busca","procurar","procura","achar",
-  "me","mostre","mostra","ver","voce","vc","existe","disponivel","disponivel?","preco","preco?",
-  "quanto","custa","qual","e","eh","ai","la","algum","alguma","produto","produtos","mercado",
-  "supermercado","loja","hipermercado","atacadista","estoque","comprar","gostaria","favor",
+  "tem",
+  "teem",
+  "tem?",
+  "o",
+  "a",
+  "os",
+  "as",
+  "um",
+  "uma",
+  "de",
+  "do",
+  "da",
+  "dos",
+  "das",
+  "no",
+  "na",
+  "nos",
+  "nas",
+  "em",
+  "para",
+  "pra",
+  "por",
+  "com",
+  "quero",
+  "queria",
+  "buscar",
+  "busca",
+  "procurar",
+  "procura",
+  "achar",
+  "me",
+  "mostre",
+  "mostra",
+  "ver",
+  "voce",
+  "vc",
+  "existe",
+  "disponivel",
+  "disponivel?",
+  "preco",
+  "preco?",
+  "quanto",
+  "custa",
+  "qual",
+  "e",
+  "eh",
+  "ai",
+  "la",
+  "algum",
+  "alguma",
+  "produto",
+  "produtos",
+  "mercado",
+  "supermercado",
+  "loja",
+  "hipermercado",
+  "atacadista",
+  "estoque",
+  "comprar",
+  "gostaria",
+  "favor",
 ]);
 
 function tokens(text: string) {
@@ -41,7 +97,9 @@ export interface VoiceSearchResult {
   store: Store | null;
   term: string;
   message: string;
-  navigate: { to: "/buscar"; search: { q: string } } | { to: "/loja/$id"; params: { id: string }; search: { q: string } };
+  navigate:
+    | { to: "/buscar"; search: { q: string } }
+    | { to: "/loja/$id"; params: { id: string }; search: { q: string } };
 }
 
 export function resolveVoiceQuery(transcript: string, catalog: Catalog): VoiceSearchResult {
@@ -50,10 +108,7 @@ export function resolveVoiceQuery(transcript: string, catalog: Catalog): VoiceSe
   let store: Store | null = null;
   let storeScore = 0;
   for (const candidate of catalog.stores) {
-    const score = Math.max(
-      scoreMatch(candidate.name, words),
-      scoreMatch(candidate.network, words),
-    );
+    const score = Math.max(scoreMatch(candidate.name, words), scoreMatch(candidate.network, words));
     if (score > storeScore) {
       storeScore = score;
       store = candidate;

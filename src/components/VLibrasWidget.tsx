@@ -18,7 +18,11 @@ export default function VLibrasWidget() {
 
     const boot = () => {
       if (cancelled) return;
-      const VLibrasGlobal = (window as unknown as { VLibras?: { Widget: any } }).VLibras;
+      const VLibrasGlobal = (
+        window as unknown as {
+          VLibras?: { Widget: new (options: Record<string, unknown>) => unknown };
+        }
+      ).VLibras;
       if (!VLibrasGlobal?.Widget) return;
 
       const previousOnload = window.onload;

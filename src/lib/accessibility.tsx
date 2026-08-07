@@ -8,6 +8,30 @@ import {
   type ReactNode,
 } from "react";
 
+interface SpeechRecognitionResultLike {
+  [index: number]: { transcript: string };
+}
+
+interface SpeechRecognitionEventLike {
+  results?: SpeechRecognitionResultLike[];
+}
+
+interface SpeechRecognitionLike {
+  lang: string;
+  interimResults: boolean;
+  maxAlternatives: number;
+  onstart: (() => void) | null;
+  onerror: (() => void) | null;
+  onend: (() => void) | null;
+  onresult: ((event: SpeechRecognitionEventLike) => void) | null;
+  start: () => void;
+  stop: () => void;
+}
+
+interface RecognitionWindow {
+  __conectamercado_recognition?: SpeechRecognitionLike;
+}
+
 interface AccessibilityState {
   audioDescriptionEnabled: boolean;
   highContrast: boolean;
@@ -79,7 +103,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
       return;
     }
     setVoiceSupportError(null);
-    const recognition = new (SpeechRecognitionCtor as new () => any)();
+    const recognition = new (SpeechRecognitionCtor as new () => SpeechRecognitionLike)();
     recognition.lang = "pt-BR";
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
@@ -89,16 +113,16 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
       setVoiceSupportError("Não foi possível reconhecer sua voz. Tente novamente.");
     };
     recognition.onend = () => setIsListening(false);
-    recognition.onresult = (event: any) => {
+    recognition.onresult = (event: SpeechRecognitionEventLike) => {
       const transcript = event.results?.[0]?.[0]?.transcript ?? "";
       onResult(transcript);
     };
     recognition.start();
-    (window as any).__conectamercado_recognition = recognition;
+    (window as unknown as RecognitionWindow).__conectamercado_recognition = recognition;
   }, []);
 
   const stopListening = useCallback(() => {
-    const recognition = (window as any).__conectamercado_recognition;
+    const recognition = (window as unknown as RecognitionWindow).__conectamercado_recognition;
     if (recognition) recognition.stop();
     setIsListening(false);
   }, []);
@@ -161,9 +185,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
     ],
   );
 
-  return (
-    <AccessibilityContext.Provider value={value}>{children}</AccessibilityContext.Provider>
-  );
+  return <AccessibilityContext.Provider value={value}>{children}</AccessibilityContext.Provider>;
 }
 
 export function useAccessibility() {

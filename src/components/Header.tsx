@@ -27,11 +27,7 @@ export default function Header() {
             className="flex items-center gap-2 font-semibold"
             aria-label={`${APP_NAME} — página inicial`}
           >
-            <img
-  src="/favicon.png"
-  alt="Conecta Mercado"
-  className="h-9 w-9"
-/>
+            <img src="/favicon.png" alt="Conecta Mercado" className="h-9 w-9" />
             <span className="hidden text-lg sm:inline">{APP_NAME}</span>
           </Link>
         </div>

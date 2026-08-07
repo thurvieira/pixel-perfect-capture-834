@@ -6,17 +6,7 @@ import { catalogQueryOptions } from "@/lib/catalog";
 import { resolveVoiceQuery } from "@/lib/voice-search";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
-import {
-  Contrast,
-  Ear,
-  Mic,
-  MicOff,
-  Minus,
-  Plus,
-  RotateCcw,
-  Volume2,
-  VolumeX,
-} from "lucide-react";
+import { Contrast, Ear, Mic, MicOff, Minus, Plus, RotateCcw, Volume2, VolumeX } from "lucide-react";
 import { useState } from "react";
 
 export default function AccessibilityPanel() {
@@ -81,9 +71,7 @@ export default function AccessibilityPanel() {
         >
           <div>
             <p className="text-sm font-semibold">Acessibilidade</p>
-            <p className="text-xs text-muted-foreground">
-              Ajuste como você usa o ConectaMercado.
-            </p>
+            <p className="text-xs text-muted-foreground">Ajuste como você usa o ConectaMercado.</p>
           </div>
 
           <Separator />
@@ -136,13 +124,9 @@ export default function AccessibilityPanel() {
               {isListening ? "Ouvindo…" : "Falar"}
             </Button>
           </div>
-          {voiceSupportError && (
-            <p className="text-xs text-destructive">{voiceSupportError}</p>
-          )}
+          {voiceSupportError && <p className="text-xs text-destructive">{voiceSupportError}</p>}
           {lastCommand && (
-            <p className="text-xs text-muted-foreground">
-              Último comando: "{lastCommand}"
-            </p>
+            <p className="text-xs text-muted-foreground">Último comando: "{lastCommand}"</p>
           )}
           {lastAnswer && (
             <p className="text-xs" aria-live="polite">
@@ -209,8 +193,8 @@ export default function AccessibilityPanel() {
           <Separator />
 
           <p className="text-xs text-muted-foreground">
-            Use o botão do <strong>VLibras</strong> (canto da tela) para tradução
-            automática em Libras com avatar 3D.
+            Use o botão do <strong>VLibras</strong> (canto da tela) para tradução automática em
+            Libras com avatar 3D.
           </p>
         </PopoverContent>
       </Popover>
