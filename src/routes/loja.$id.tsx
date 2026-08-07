@@ -14,7 +14,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/loja/$id")({
-  validateSearch: (search: Record<string, unknown>) => ({
+  validateSearch: (search: Record<string, unknown>): { q?: string } => ({
     q: typeof search["q"] === "string" ? (search["q"] as string) : "",
   }),
   head: () => ({
@@ -37,7 +37,7 @@ export const Route = createFileRoute("/loja/$id")({
 
 function StoreDetail() {
   const { id } = Route.useParams();
-  const { q } = Route.useSearch();
+  const { q = "" } = Route.useSearch();
   const { data, isLoading } = useQuery(catalogQueryOptions);
   const { addItem } = useCart();
   const describe = useAudioDescribe();
