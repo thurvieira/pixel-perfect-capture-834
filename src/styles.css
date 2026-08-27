@@ -33,6 +33,14 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-diet-vegan: var(--diet-vegan);
+  --color-diet-vegan-foreground: var(--diet-vegan-foreground);
+  --color-diet-sugarfree: var(--diet-sugarfree);
+  --color-diet-sugarfree-foreground: var(--diet-sugarfree-foreground);
+  --color-diet-glutenfree: var(--diet-glutenfree);
+  --color-diet-glutenfree-foreground: var(--diet-glutenfree-foreground);
+  --color-diet-lactosefree: var(--diet-lactosefree);
+  --color-diet-lactosefree-foreground: var(--diet-lactosefree-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
