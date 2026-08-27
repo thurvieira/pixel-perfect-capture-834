@@ -141,6 +141,7 @@ export type Database = {
           category: string
           created_at: string
           description: string
+          diet_tags: string[]
           id: string
           image_emoji: string
           image_url: string
@@ -152,6 +153,7 @@ export type Database = {
           category: string
           created_at?: string
           description?: string
+          diet_tags?: string[]
           id: string
           image_emoji?: string
           image_url?: string
@@ -163,6 +165,7 @@ export type Database = {
           category?: string
           created_at?: string
           description?: string
+          diet_tags?: string[]
           id?: string
           image_emoji?: string
           image_url?: string
