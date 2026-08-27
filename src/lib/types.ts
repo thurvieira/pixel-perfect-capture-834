@@ -18,6 +18,8 @@ export interface ProductStock {
   stock: number;
 }
 
+export type DietTag = "vegano" | "zero-acucar" | "sem-gluten" | "sem-lactose";
+
 export interface Product {
   id: string;
   name: string;
@@ -27,6 +29,7 @@ export interface Product {
   audioDescription: string;
   imageEmoji: string;
   imageUrl: string;
+  dietTags: DietTag[];
   stocks: ProductStock[];
 }
 
